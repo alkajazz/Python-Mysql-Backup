@@ -9,6 +9,7 @@
 import configparser
 import os
 import time
+import getpass
 
 path = '/etc/mysqlpybackup/mypy.conf'
 pathdir = '/etc/mysqlpybackup'
@@ -37,7 +38,7 @@ def createfile(mkfile):
     else:
         if not (os.path.isfile(mkfile)):
             mkuser = input('What is your database user name? ')
-            mkpass = input('What is your password? ')
+            mkpass = getpass.getpass('What is your password? ')
             mkhost = input('what is your host? ')
             f = open(mkfile, 'w')
             f.write('#This is the config file for the script\n \n[Login]\n \nUsername = %s\n \nPassword = %s\n \nHost = %s' % (mkuser, mkpass, mkhost))
