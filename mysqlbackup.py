@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
 
-##################################################
-#
-#    
-#
-#
-#
-#
-#
-##################################################
+####################################################################
+#  Simple python script that you can queue up in cron to mysqldump #
+#  requires python config parser module                            #
+#  i didn't do a dir check for /backups/mysql/ oops                #
+####################################################################
 
 import configparser
 import os
@@ -17,11 +13,11 @@ import time
 path = '/etc/mysqlpybackup/mypy.conf'
 pathdir = '/etc/mysqlpybackup'
 mkfile = '/etc/mysqlpybackup/mypy.conf'
-filestamp = time.strftime('Y%-%m-%d')
+filestamp = time.strftime('%y-%m-%d')
 
-#############################################
-#Check to see if dir exists if not create it#
-#############################################
+###############################################
+# Check to see if dir exists if not create it #
+###############################################
 
 def checkdir(path):
     if os.path.exists(pathdir) == True:
@@ -30,9 +26,9 @@ def checkdir(path):
         os.makedirs(pathdir)
         return True
 
-##################################################
-#Check to see if Conf is created if not create it#
-##################################################
+####################################################
+# Check to see if Conf is created if not create it #
+####################################################
 
 
 def createfile(mkfile):
@@ -49,9 +45,9 @@ def createfile(mkfile):
             print('Your conf file has been created')
             return True
 
-###################################
-#Check Config and back up database#
-###################################
+#####################################
+# Check Config and back up database # 
+#####################################
 
 def backupsql(path):
     config = configparser.ConfigParser()
@@ -69,6 +65,9 @@ def backupsql(path):
         filename = "/backups/mysql/%s-%s.sql" % (database, filestamp)
         os.popen("mysqldump -u %s -p%s -h %s -e --opt -c %s | gzip -c > %s.gz" % (username, password, host, database, filename))
 
+####################
+# main function yo #
+####################
 
 
 def main():
